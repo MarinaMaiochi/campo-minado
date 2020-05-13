@@ -10,6 +10,41 @@ function recebeValorLinhaColuna(){
   const inputColuna = document.querySelector('.colunasTab');
   colunasCampo = inputColuna.value;
 }
+function addNivel(){
+  document.querySelector('.facil').addEventListener('click', escolheNivel);
+  document.querySelector('.medio').addEventListener('click', escolheNivel);
+  document.querySelector('.dificil').addEventListener('click', escolheNivel);
+}
+function escolheNivel(event){
+  const escolha = event.target;
+  if (escolha.classList.contains('facil')) {
+      dificuldade = 'FACIL' ;
+      valorDificuldade = 10;
+      document.querySelector('.facil').classList.remove('butEscuro');
+      document.querySelector('.medio').classList.add('butEscuro');
+      document.querySelector('.dificil').classList.add('butEscuro');
+  } else if (escolha.classList.contains('medio')) {
+      dificuldade = 'MEDIO' ;
+      valorDificuldade = 8;
+      document.querySelector('.medio').classList.remove('butEscuro');
+      document.querySelector('.facil').classList.add('butEscuro');
+      document.querySelector('.dificil').classList.add('butEscuro');
+  } else if (escolha.classList.contains('dificil')) {
+      dificuldade = 'DIFICIL' ;
+      valorDificuldade = 5;
+      document.querySelector('.dificil').classList.remove('butEscuro');
+      document.querySelector('.facil').classList.add('butEscuro');
+      document.querySelector('.medio').classList.add('butEscuro');
+  } 
+  const facil = document.querySelector('.facil');
+  facil.removeEventListener('click', escolheNivel);
+  const medio = document.querySelector('.medio');
+  medio.removeEventListener('click', escolheNivel);
+  const dificil = document.querySelector('.dificil');
+  dificil.removeEventListener('click', escolheNivel);
+  recebeValorLinhaColuna();
+  montaCampo(linhasCampo,colunasCampo);    
+}
 function montaCampo(linha,coluna){
   const tabuleiro = document.querySelector(".tabuleiro");
   for (let i = 0; i < coluna; i++) {                     
@@ -26,40 +61,7 @@ function montaCampo(linha,coluna){
     }
     tabuleiro.appendChild(divLinha);
   }
-}
-function addNivel(){
-  document.querySelector('.facil').addEventListener('click', escolheNivel);
-  document.querySelector('.medio').addEventListener('click', escolheNivel);
-  document.querySelector('.dificil').addEventListener('click', escolheNivel);
-}
-function escolheNivel(event){
-  const escolha = event.target;
-  if (escolha.classList.contains('facil')) {
-      dificuldade = 'FACIL' ;
-      valorDificuldade = 10;
-      document.querySelector('.facil').classList.remove('butEscuro');
-      document.querySelector('.medio').classList.add('butEscuro');
-      document.querySelector('.dificil').classList.add('butEscuro');
-  } else if (escolha.classList.contains('medio')) {
-      dificuldade = 'MEDIO' ;
-      valorDificuldade = 7;
-      document.querySelector('.medio').classList.remove('butEscuro');
-      document.querySelector('.facil').classList.add('butEscuro');
-      document.querySelector('.dificil').classList.add('butEscuro');
-  } else if (escolha.classList.contains('dificil')) {
-      dificuldade = 'DIFICIL' ;
-      valorDificuldade = 4;
-      document.querySelector('.dificil').classList.remove('butEscuro');
-      document.querySelector('.facil').classList.add('butEscuro');
-      document.querySelector('.medio').classList.add('butEscuro');
-  } 
-  const facil = document.querySelector('.facil');
-  facil.removeEventListener('click', escolheNivel);
-  const medio = document.querySelector('.medio');
-  medio.removeEventListener('click', escolheNivel);
-  const dificil = document.querySelector('.dificil');
-  dificil.removeEventListener('click', escolheNivel); 
-  colocaBomba();   
+  colocaBomba();
 }
 function colocaBomba(){
   qtdBombas = Math.floor((linhasCampo * colunasCampo) / valorDificuldade);
@@ -72,13 +74,10 @@ function colocaBomba(){
   contadorDeBomba(linhasCampo,colunasCampo);
 }
 function contadorDeBomba(linhas,colunas){
-  
   for (let i = 0; i < linhas; i++) {
     for (let j = 0; j < colunas; j++) {
-      
       const celula = document.querySelector(`[data-linha="${i}"][data-coluna="${j}"]`);
       let valorDaCelula = 0;
-
       if(i==0 && j==0){
         if (document.querySelector(`[data-linha="${0}"][data-coluna="${1}"]`).classList.contains('bomba')){
           valorDaCelula++;
@@ -124,7 +123,6 @@ function contadorDeBomba(linhas,colunas){
           for (let n = 0; n < 2; n++) {
             if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
               valorDaCelula++;
-              console.info(valorDaCelula);
             }
           } 
         }
@@ -133,7 +131,6 @@ function contadorDeBomba(linhas,colunas){
           for (let n = -1; n < 1; n++) {
             if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
               valorDaCelula++;
-              console.info(valorDaCelula);
             }
           } 
         }
@@ -142,7 +139,6 @@ function contadorDeBomba(linhas,colunas){
           for (let n = -1; n < 2; n++) {
             if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
               valorDaCelula++;
-              console.info(valorDaCelula);
             }
           } 
         }
@@ -151,7 +147,6 @@ function contadorDeBomba(linhas,colunas){
           for (let n = -1; n < 2; n++) {
             if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
               valorDaCelula++;
-              console.info(valorDaCelula);
             }
           } 
         }
@@ -160,12 +155,10 @@ function contadorDeBomba(linhas,colunas){
           for (let n = -1; n < 2; n++) {
             if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
               valorDaCelula++;
-              console.info(valorDaCelula);
             }
           } 
         }
       }
-     
       if (celula.classList.contains('bomba')){
         valorDaCelula = 0;
       }
@@ -257,28 +250,17 @@ function verificaResultadoDoJogo(){
   }
 }
 
-recebeValorLinhaColuna();
-montaCampo(linhasCampo,colunasCampo);
+
 addNivel();
-colocaBomba();
-contadorDeBomba(linhasCampo,colunasCampo);
 
 document.querySelector('.novojogo').addEventListener('click', chamaNovoJogo);
 function chamaNovoJogo(){
   
-  if (dificuldade != 'FACIL'){
-      document.querySelector('.facil').classList.add('butEscuro');
-  }
-  if (dificuldade != 'MEDIO'){
-      document.querySelector('.medio').classList.add('butEscuro');
-  }
-  if (dificuldade != 'DIFICIL'){
-      document.querySelector('.dificil').classList.add('butEscuro');
-  }
+  document.querySelector('.facil').classList.remove('butEscuro');
+  document.querySelector('.medio').classList.remove('butEscuro');
+  document.querySelector('.dificil').classList.remove('butEscuro');
   document.querySelector(".tabuleiro").innerHTML = '';
   document.querySelector('.resultado').innerText = '';
-  recebeValorLinhaColuna();
-  montaCampo(linhasCampo,colunasCampo);
+  
   addNivel();
-  colocaBomba();
 }
