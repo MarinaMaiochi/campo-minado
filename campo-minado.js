@@ -1,11 +1,8 @@
-
-
 let linhasCampo;
 let colunasCampo;
 let dificuldade;
 let valorDificuldade = 10;
 let qtdBombas;
-let fimdejogo = false;
 
 function recebeValorLinhaColuna(){
   const inputLinha = document.querySelector('.linhasTab');
@@ -18,14 +15,14 @@ function montaCampo(linha,coluna){
   for (let i = 0; i < coluna; i++) {                     
     const divLinha = document.createElement('div');
     for (let j = 0; j < linha; j++) {
-        const celula = document.createElement('div');
-        celula.setAttribute("data-linha" , j);
-        celula.setAttribute("data-coluna" , i);
-        celula.classList.add('celula');
-        celula.classList.add('grama');
-        celula.classList.add('vazio');
-        celula.addEventListener('click', jogada);
-        divLinha.appendChild(celula);
+      const celula = document.createElement('div');
+      celula.setAttribute("data-linha" , j);
+      celula.setAttribute("data-coluna" , i);
+      celula.classList.add('celula');
+      celula.classList.add('grama');
+      celula.classList.add('vazio');
+      celula.addEventListener('click', jogada);
+      divLinha.appendChild(celula);
     }
     tabuleiro.appendChild(divLinha);
   }
@@ -72,6 +69,7 @@ function colocaBomba(){
     vazios[aleatorio].classList.add('bomba');
     vazios[aleatorio].classList.remove('vazio');
   }
+  contadorDeBomba(linhasCampo,colunasCampo);
 }
 function contadorDeBomba(linhas,colunas){
   
@@ -232,7 +230,7 @@ function verificaResultadoDoJogo(){
         let celula = document.querySelector(`[data-linha="${i}"][data-coluna="${j}"]`);
 
         if (celula.classList.contains('bomba')){
-          celula.classList.add('bombaestourada');
+          celula.classList.add('bombanaoestourada');
           celula.classList.remove('bomba');
         } else if (celula.classList.contains('numero')){
           celula.classList.add('cavado');
@@ -283,5 +281,4 @@ function chamaNovoJogo(){
   montaCampo(linhasCampo,colunasCampo);
   addNivel();
   colocaBomba();
-  contadorDeBomba(linhasCampo,colunasCampo);
 }

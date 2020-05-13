@@ -75,18 +75,25 @@ h4{
   background-color: olivedrab;
 }
 .bombaestourada{
-  background-color: gray;
+  background-color: rgb(175, 4, 47);;
+  background-image: url(estouro-01.png);
+}
+.bombanaoestourada{
+  background-color: rgb(255, 197, 71);
+  background-image: url(bomba-01.png);
 }
 .bandeira{
-  background-color: rgb(211, 11, 61);
+  background-color:rgb(235, 195, 149);
+  background-image: url(flag-01.png);
 }
 .celula{
-  border: lightgreen solid 1px;
+  border: rgb(0, 0, 0) solid 1px;
   display: flex;
   justify-content: center;
   font-size: 10px;
   min-width: 18px;
   min-height: 18px;
+  background-size: 100% 100% ;
 }
 .tabuleiro{
   display: flex;
