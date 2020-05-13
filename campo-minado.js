@@ -5,6 +5,7 @@ let colunasCampo;
 let dificuldade;
 let valorDificuldade = 10;
 let qtdBombas;
+let fimdejogo = false;
 
 function recebeValorLinhaColuna(){
   const inputLinha = document.querySelector('.linhasTab');
@@ -21,7 +22,9 @@ function montaCampo(linha,coluna){
         celula.setAttribute("data-linha" , j);
         celula.setAttribute("data-coluna" , i);
         celula.classList.add('celula');
+        celula.classList.add('grama');
         celula.classList.add('vazio');
+        celula.addEventListener('click', jogada);
         divLinha.appendChild(celula);
     }
     tabuleiro.appendChild(divLinha);
@@ -68,41 +71,201 @@ function colocaBomba(){
     const aleatorio = Math.floor(Math.random() * vazios.length);
     vazios[aleatorio].classList.add('bomba');
     vazios[aleatorio].classList.remove('vazio');
-   
   }
 }
 function contadorDeBomba(linhas,colunas){
- 
-  for (let i = 1; i < linhas-1; i++) {
-    for (let j = 1; j < colunas-1; j++) {
+  
+  for (let i = 0; i < linhas; i++) {
+    for (let j = 0; j < colunas; j++) {
       
       const celula = document.querySelector(`[data-linha="${i}"][data-coluna="${j}"]`);
       let valorDaCelula = 0;
-      for (let m = -1; m < 2; m++) {
-        for (let n = -1; n < 2; n++) {
-          if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
-            valorDaCelula++;
-            console.info(valorDaCelula);
-          }
-        } 
+
+      if(i==0 && j==0){
+        if (document.querySelector(`[data-linha="${0}"][data-coluna="${1}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+        if (document.querySelector(`[data-linha="${1}"][data-coluna="${1}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+        if (document.querySelector(`[data-linha="${1}"][data-coluna="${0}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+      } else if(i==0 && j==colunas-1){
+        if (document.querySelector(`[data-linha="${0}"][data-coluna="${colunas-2}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+        if (document.querySelector(`[data-linha="${1}"][data-coluna="${colunas-2}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+        if (document.querySelector(`[data-linha="${1}"][data-coluna="${colunas-1}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+      } else if(i==linhas-1 && j==0){
+        if (document.querySelector(`[data-linha="${linhas-2}"][data-coluna="${0}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+        if (document.querySelector(`[data-linha="${linhas-2}"][data-coluna="${1}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+        if (document.querySelector(`[data-linha="${linhas-1}"][data-coluna="${1}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+      } else if(i==linhas-1 && j==colunas-1){
+        if (document.querySelector(`[data-linha="${linhas-2}"][data-coluna="${colunas-2}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+        if (document.querySelector(`[data-linha="${linhas-2}"][data-coluna="${colunas-1}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+        if (document.querySelector(`[data-linha="${linhas-1}"][data-coluna="${colunas-2}"]`).classList.contains('bomba')){
+          valorDaCelula++;
+        }
+      } else if(i>0 && i<linhas-1 && j==0){
+        for (let m = -1; m < 2; m++) {
+          for (let n = 0; n < 2; n++) {
+            if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
+              valorDaCelula++;
+              console.info(valorDaCelula);
+            }
+          } 
+        }
+      } else if(i>0 && i<linhas-1 && j==colunas-1){
+        for (let m = -1; m < 2; m++) {
+          for (let n = -1; n < 1; n++) {
+            if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
+              valorDaCelula++;
+              console.info(valorDaCelula);
+            }
+          } 
+        }
+      } else if(i==0 && j>0 && j<colunas-1){
+        for (let m = 0; m < 2; m++) {
+          for (let n = -1; n < 2; n++) {
+            if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
+              valorDaCelula++;
+              console.info(valorDaCelula);
+            }
+          } 
+        }
+      } else if(i==linhas-1 && j>0 && j<colunas-1){
+        for (let m = -1; m < 1; m++) {
+          for (let n = -1; n < 2; n++) {
+            if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
+              valorDaCelula++;
+              console.info(valorDaCelula);
+            }
+          } 
+        }
+      } else {
+        for (let m = -1; m < 2; m++) {
+          for (let n = -1; n < 2; n++) {
+            if (document.querySelector(`[data-linha="${i+m}"][data-coluna="${j+n}"]`).classList.contains('bomba')){
+              valorDaCelula++;
+              console.info(valorDaCelula);
+            }
+          } 
+        }
       }
-      celula.innerText = valorDaCelula;
-      console.info(valorDaCelula);
+     
       if (celula.classList.contains('bomba')){
-        celula.innerText = '';
+        valorDaCelula = 0;
+      }
+      if(valorDaCelula > 0){
+        celula.setAttribute("data-n" , valorDaCelula);
+        celula.classList.add('numero');
+        celula.classList.remove('vazio');
       }
     }    
   }
 }
+
+function jogada(event){
+  const celula = event.target;
+  if (celula.classList.contains('bomba')){
+    celula.classList.add('bombaestourada');
+    celula.classList.remove('bomba');
+  } else if (celula.classList.contains('numero')){
+    celula.classList.add('cavado');
+    celula.classList.remove('grama');
+    let num = celula.getAttribute("data-n");
+    celula.innerText = num;
+  } else if (celula.classList.contains('vazio')){
+    celula.classList.add('cavado');
+    celula.classList.remove('grama');
+    celula.classList.remove('vazio');
+    mostraArredor(celula);
+  }
+  verificaResultadoDoJogo();
+}
+function mostraArredor(celula){
+  let linhas = parseInt(celula.getAttribute("data-linha"),10);
+  let colunas = parseInt(celula.getAttribute("data-coluna"),10);
+ 
+  for (let i = -1; i < 2; i++) {
+    for (let j = -1; j < 2; j++) {
+      
+      const adjacente = document.querySelector(`[data-linha="${linhas+i}"][data-coluna="${colunas+j}"]`);
+      if (adjacente) {
+        if (adjacente.classList.contains('numero')){
+          adjacente.classList.add('cavado');
+          adjacente.classList.remove('grama');
+          let num = adjacente.getAttribute("data-n");
+          adjacente.innerText = num;
+        } else if (adjacente.classList.contains('vazio')){
+          celula.classList.add('cavado');
+          adjacente.classList.remove('grama');
+          celula.classList.remove('vazio');
+          mostraArredor(adjacente);
+        }
+      }
+    }    
+  }
+}
+function verificaResultadoDoJogo(){
+  
+  if (document.querySelectorAll('.bombaestourada').length >= 1){
+    document.querySelector('.resultado').innerText = 'Perdeu';
+    
+    for (let i = 0; i < linhasCampo; i++) {
+      for (let j = 0; j < colunasCampo; j++) {
+        let celula = document.querySelector(`[data-linha="${i}"][data-coluna="${j}"]`);
+
+        if (celula.classList.contains('bomba')){
+          celula.classList.add('bombaestourada');
+          celula.classList.remove('bomba');
+        } else if (celula.classList.contains('numero')){
+          celula.classList.add('cavado');
+          celula.classList.remove('grama');
+          let num = celula.getAttribute("data-n");
+          celula.innerText = num;
+        } else if (celula.classList.contains('vazio')){
+          celula.classList.add('cavado');
+          celula.classList.remove('grama');
+          celula.classList.remove('vazio');
+        }
+      }
+    }
+  }
+
+  let nGrama = document.querySelectorAll('.grama');
+  let nBomba = document.querySelectorAll('.bomba');
+  if ( nBomba.length == nGrama.length){
+    document.querySelector('.resultado').innerText = 'Ganhou';
+    nBomba.forEach(element => {
+      element.classList.add('bandeira');
+      element.classList.remove('bomba');
+    });
+  }
+}
+
 recebeValorLinhaColuna();
 montaCampo(linhasCampo,colunasCampo);
 addNivel();
 colocaBomba();
 contadorDeBomba(linhasCampo,colunasCampo);
 
-
-const novoJogo = document.querySelector('.novojogo');
-novoJogo.addEventListener('click', chamaNovoJogo);
+document.querySelector('.novojogo').addEventListener('click', chamaNovoJogo);
 function chamaNovoJogo(){
   
   if (dificuldade != 'FACIL'){
@@ -115,9 +278,10 @@ function chamaNovoJogo(){
       document.querySelector('.dificil').classList.add('butEscuro');
   }
   document.querySelector(".tabuleiro").innerHTML = '';
+  document.querySelector('.resultado').innerText = '';
   recebeValorLinhaColuna();
   montaCampo(linhasCampo,colunasCampo);
   addNivel();
+  colocaBomba();
   contadorDeBomba(linhasCampo,colunasCampo);
 }
-
