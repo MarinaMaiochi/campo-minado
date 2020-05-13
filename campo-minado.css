@@ -35,6 +35,9 @@ body{
 .dificil{
   background-color: rgb(216, 134, 57);
 }
+.butEscuro{
+ opacity: 50%;
+}
 .novojogo{
   background-color: rgb(226, 176, 69);
   border-radius: 6px;
@@ -77,6 +80,9 @@ h4{
 .celula{
   background-color: lightcoral;
   border: lightgreen solid 1px;
+  display: flex;
+  justify-content: center;
+  font-size: 10px;
   min-width: 18px;
   min-height: 18px;
 }
